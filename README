@@ -1,0 +1,40 @@
+#README - Tweepgrabber
+
+---
+
+This tool was developed by Matthew Reidsma in HTML, PHP, and Javascript to let users renew books with one click from their Millennium notification emails. It's a work in progress. We hope you find it useful.
+
+INSTALLATION
+
+Aaron Schmidt (http://walkingpaper.org) asked on Twitter whether anyone was doing one-click renewals in from notification emails [1]. I thought this sounded like a great idea, but I could think of a few obstacles Millennium, our ILS, would throw up right off the bat:
+
+1. Renewal form uses POST and not GET
+2. Can't send HTML emails as notifications
+
+The 2 easy solutions were out: I can't just generate an email that would pass the necessary variables (item#, patron id, and a few technical variables) to the form, since the form doesn't accept GET. Can't embed a POST form in the email to send those variables. My solution patches the problems with both of these.
+
+I literally made some middleware. It works like this:
+
+Edit line 5 in the index.php to have your library's path to Millennium. Just edit the part between https:// and the next backslash ("/"). Upload it somewhere to your server, like mylib.edu/renew. Now:
+
+Create a link in Millennium's notifications to the renew.php file and pass 2 variables*: the patron id (as var p) and the item you want to renew (as i). Currently the script will only work for single items. (I wrote it in 8 minutes. I've already spent longer on this README.) You should have a link like this:
+
+http://mylib.edu/renew/?i=i9873483&p=983749283
+
+When the user clicks that link, the attached file runs and grabs those 2 variables you passed, populates a form that will send the data to Millennium as a POST request, and then submits the form. It happens fast, so the user likely doesn't know they are redirected. They will have to log in if they aren't already.
+
+* The wildcard here is the Millennium notification. I'm not actually sure if I can create the needed URL with those variables within the notification system. If not, I'll need to come up with something else.
+
+This is a work in progress, but I thought I'd get the code out to others who might want to test and hack on it. Am I missing something stupid?
+
+More questions? Feel free to contact Matthew Reidsma on Twitter at @mreidsma or via email at reidsmam@gvsu.edu.
+
+COPYRIGHT
+
+This tool is copyright 2012 Matthew Reidsma. 
+
+This tool is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This tool is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this tool. If not, see <http://www.gnu.org/licenses/>.

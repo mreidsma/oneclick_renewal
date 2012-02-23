@@ -2,13 +2,25 @@
 
 ---
 
+IMPORTANT: I developed this before I realized that Millennium's forms support both POST and GET. So, you don't need this at all. Just do a GET request to the renewal form! To do one-click renewal if you use the traditional Millennium login (name & code), use this:
+
+millennium.url/patroninfo/*/items?name={name}&code={barcode}&renew0={itemnumber}
+
+And if you need them to pass through sign-in, use this:
+
+millennium.url/patroninfo/*/items?renew0={itemnumber}
+
+A big thanks to Brad Czerniak (@ao5357) for pointing this out to me.
+
+---
+
 This tool was developed by Matthew Reidsma in HTML, PHP, and Javascript to let users renew books with one click from their Millennium notification emails. It's a work in progress. We hope you find it useful.
 
 INSTALLATION
 
 Aaron Schmidt (http://walkingpaper.org) asked on Twitter whether anyone was doing one-click renewals in from notification emails [1]. I thought this sounded like a great idea, but I could think of a few obstacles Millennium, our ILS, would throw up right off the bat:
 
-1. Renewal form uses POST and not GET
+1. Renewal form uses POST and not GET [See IMPORTANT above, since this is not true.]
 2. Can't send HTML emails as notifications
 
 The 2 easy solutions were out: I can't just generate an email that would pass the necessary variables (item#, patron id, and a few technical variables) to the form, since the form doesn't accept GET. Can't embed a POST form in the email to send those variables. My solution patches the problems with both of these.
